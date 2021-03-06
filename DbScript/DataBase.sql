@@ -20,20 +20,6 @@ CREATE TABLE dbo.University
 	Title NVARCHAR(100) NOT NULL
 	)
 GO
---///////////////////////////////////////////////
---                  Student Table
---///////////////////////////////////////////////
-
-CREATE TABLE dbo.Student
-	(
-	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	FirstName NVARCHAR(50) NULL,
-	LastName NVARCHAR(50) NULL,
-	MiddleName NVARCHAR(50) NULL,
-	Course INT NOT NULL,
-	IdGroup INT NOT NULL FOREIGN KEY REFERENCES [Group](Id)		    ON DELETE CASCADE ON UPDATE CASCADE
-	)
-GO
 
 --///////////////////////////////////////////////
 --                  Faculty Table
@@ -58,6 +44,33 @@ CREATE TABLE dbo.Departament
 	)
 GO
 --///////////////////////////////////////////////
+--                  Specialty Table
+--///////////////////////////////////////////////
+CREATE TABLE dbo.Specialty
+	(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Title NVARCHAR(100) NOT NULL,
+	IdDepartament INT NOT NULL FOREIGN KEY REFERENCES Departament(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	)
+GO
+
+--///////////////////////////////////////////////
+--                  Student Table
+--///////////////////////////////////////////////
+
+CREATE TABLE dbo.Student
+	(
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	FirstName NVARCHAR(50) NULL,
+	LastName NVARCHAR(50) NULL,
+	MiddleName NVARCHAR(50) NULL,
+	Course INT NOT NULL,
+	DateOfReceipt DATETIME NOT NULL,
+	IdSpecialty INT NOT NULL FOREIGN KEY REFERENCES dbo.Specialty (Id) ON DELETE CASCADE ON UPDATE CASCADE
+	)
+GO
+
+--///////////////////////////////////////////////
 --                  Group Table
 --///////////////////////////////////////////////
 CREATE TABLE dbo.[Group]
@@ -66,7 +79,7 @@ CREATE TABLE dbo.[Group]
 	Number INT NOT NULL,
 	NumberOfstudent INT NOT NULL,
 	Course INT NOT NULL,
-	IdDepertament INT NOT NULL FOREIGN KEY REFERENCES Departament(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	IdSpecialty INT NOT NULL FOREIGN KEY REFERENCES Specialty(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	)
 GO
 --///////////////////////////////////////////////
@@ -103,7 +116,8 @@ CREATE TABLE dbo.Perfomance
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	IdStudent INT NOT NULL FOREIGN KEY REFERENCES Student(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	IdDiscipline INT NOT NULL FOREIGN KEY REFERENCES Discipline(Id) ON DELETE CASCADE ON UPDATE CASCADE,
-	Evalution INT NOT NULL
+	Evalution INT NOT NULL,
+	DateOfDelivery DATETIME NOT NULL
 	)
 GO
 
@@ -114,9 +128,10 @@ GO
 CREATE TABLE dbo.EducationPlane
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	IdDepartament INT NOT NULL FOREIGN KEY REFERENCES Departament(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	IdSpecialty INT NOT NULL FOREIGN KEY REFERENCES Specialty(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	IdDiscipline INT NOT NULL FOREIGN KEY REFERENCES Discipline(Id) ON DELETE CASCADE ON UPDATE CASCADE,
-	TotalTime INT NOT NULL
+	TotalTime INT NOT NULL,
+	DateInstall DATETIME NOT NULL
 	)
 GO
 
@@ -128,10 +143,21 @@ GO
 CREATE TABLE dbo.Deducted
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	IdStudent INT NOT NULL,
+	IdStudent INT NOT NULL FOREIGN KEY REFERENCES Student(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	DateDeducted DATETIME NOT NULL
 	)
 GO
+--///////////////////////////////////////////////
+--                  Graduates Table
+--///////////////////////////////////////////////
 
+CREATE TABLE dbo.Graduates
+	(
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	IdStudent INT NOT NULL FOREIGN KEY REFERENCES Student(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	DateGraduates DATETIME NOT NULL
+	)
+GO
 --///////////////////////////////////////////////
 --                  Transfer Table
 --///////////////////////////////////////////////
@@ -139,10 +165,12 @@ GO
 CREATE TABLE dbo.[Transfer]
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	IdStudent INT FOREIGN KEY REFERENCES Student(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	IdOldUniversity INT NOT NULL,
 	IdNewUniversity INT NULL,
 	IdOldFaculty INT NOT NULL,
 	IdOldGroup INT NOT NULL,
-	IdNewGroup INT NULL
+	IdNewGroup INT NULL,
+	DateTransfer DATETIME NOT NULL
 	)
 GO
