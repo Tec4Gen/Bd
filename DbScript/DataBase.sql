@@ -51,6 +51,7 @@ CREATE TABLE dbo.Specialty
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Title NVARCHAR(100) NOT NULL,
 	IdDepartament INT NOT NULL FOREIGN KEY REFERENCES Departament(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	OpeningDate DATETIME NOT NULL
 	)
 GO
 
@@ -61,10 +62,11 @@ GO
 CREATE TABLE dbo.Student
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	FirstName NVARCHAR(50) NULL,
-	LastName NVARCHAR(50) NULL,
-	MiddleName NVARCHAR(50) NULL,
+	FirstName NVARCHAR(50) NOT NULL,
+	MiddleName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
 	Course INT NOT NULL,
+	[Group] INT NOT NULL,
 	DateOfReceipt DATETIME NOT NULL,
 	IdSpecialty INT NOT NULL FOREIGN KEY REFERENCES dbo.Specialty (Id) ON DELETE CASCADE ON UPDATE CASCADE
 	)
@@ -89,9 +91,9 @@ GO
 CREATE TABLE dbo.Employee
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	FirstName NVARCHAR(50) NULL,
-	LastName NVARCHAR(50) NULL,
-	MiddleName NVARCHAR(50) NULL,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	MiddleName NVARCHAR(50) NOT NULL,
 	IdDepertament INT NOT NULL FOREIGN KEY REFERENCES Departament(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 	)
 GO
@@ -122,10 +124,10 @@ CREATE TABLE dbo.Perfomance
 GO
 
 --///////////////////////////////////////////////
---                  EducationPlane Table
+--                  EducationPlan Table
 --///////////////////////////////////////////////
 
-CREATE TABLE dbo.EducationPlane
+CREATE TABLE dbo.EducationPlan
 	(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	IdSpecialty INT NOT NULL FOREIGN KEY REFERENCES Specialty(Id) ON DELETE CASCADE ON UPDATE CASCADE,
