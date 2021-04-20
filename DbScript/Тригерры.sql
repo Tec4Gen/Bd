@@ -25,7 +25,7 @@ SET @Count= (SELECT NumberOfstudent FROM [Group] WHERE Number = @Number)
 
 IF(@Count > 30)
 BEGIN 
-	RAISERROR('Невозможно содержать в группе больше 30 человек', 16, 10)
+	RAISERROR('РќРµРІРѕР·РјРѕР¶РЅРѕ СЃРѕРґРµСЂР¶Р°С‚СЊ РІ РіСЂСѓРїРїРµ Р±РѕР»СЊС€Рµ 30 С‡РµР»РѕРІРµРє', 16, 10)
 	ROLLBACK
 END 
 ELSE
@@ -49,29 +49,99 @@ VALUES (@IdStudent, GETDATE())
 
 IF(EXISTS (SELECT *  FROM Perfomance WHERE IdStudent = @IdStudent AND Evalution > 2))
 BEGIN
-	RAISERROR('Невозможно добавить студента в выпускники у него не сданы все предметы', 16, 10)
-	ROLLBACK
+	RAISERROR('РќРµРІРѕР·РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ СЃС‚СѓРґРµРЅС‚Р° РІ РІС‹РїСѓСЃРєРЅРёРєРё Сѓ РЅРµРіРѕ РЅРµ СЃРґР°РЅС‹ РІСЃРµ РїСЂРµРґРјРµС‚С‹', 16, 10)
 END
 ELSE
 	COMMIT
 GO
 
-CREATE TRIGGER transferUpdate
-ON [Transfer]
+CREATE TRIGGER perfomanceUpdate
+ON Perfomance
 INSTEAD OF UPDATE
 AS
-DECLARE @Number INT
+DECLARE @Evalution INT
 DECLARE @IdStudent INT
+DECLARE @IdDiscipline INT
+DECLARE @DateOfDelivery DATETIME2
 
-SET @IdStudent = (SELECT Id FROM DELETED)
 
-SET @Number = (SELECT [Group] FROM DELETED)
+SET @IdStudent = (SELECT Id FROM inserted)
+SET @IdDiscipline = (SELECT IdDiscipline FROM Inserted)
+SET @DateOfDelivery = (SELECT DateOfDelivery FROM inserted)
+SET @Evalution = (SELECT @Evalution FROM Inserted)
 
-DELETE FROM Student WHERE Id = @IdStudent
+BEGIN TRAN
+UPDATE dbo.Perfomance SET IdStudent= @IdStudent, IdDiscipline = IdDiscipline, Evalution = @Evalution, DateOfDelivery = @DateOfDelivery
 
-UPDATE [Group] SET NumberOfstudent -= 1
-	FROM [Group]
-	WHERE (Number = @Number)
+IF(EXISTS (SELECT * FROM dbo.Graduates) OR EXISTS(SELECT * FROM dbo.Deducted))
+BEGIN
+	RAISERROR('РќРµРІРѕР·РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ СЃС‚СѓРґРµРЅС‚Р° РІ РІС‹РїСѓСЃРєРЅРёРєРё Сѓ РЅРµРіРѕ РЅРµ СЃРґР°РЅС‹ РІСЃРµ РїСЂРµРґРјРµС‚С‹', 16, 10)
+END 
+ELSE 
+	COMMIT
+GO
+
+CREATE TRIGGER groupTrigger
+ON [Group]
+AFTER UPDATE
+AS
+	DECLARE @OldNumber INT
+	DECLARE @IdSpecialty INT
+	DECLARE @Number INT
+	DECLARE @NumberOfstudent INT
+	DECLARE @Course INT
+
+
+
+	SET @OldNumber = (SELECT [Group] FROM [Group] WHERE Id = @Id)
+	SET @IdSpecialty = (SELECT  Inserted.IdSpecialty FROM Inserted)
+	SET @Number = (SELECT Inserted.Number FROM inserted)
+	SET @NumberOfstudent = (SELECT Inserted.NumberOfstudent FROM Inserted)
+	SET @Course = (SELECT Inserted.Course FROM Inserted)
+
+	SET 
+	UPDATE dbo.[Group] SET @Number= Number, IdSpecialty = @IdSpecialty, NumberOfstudent = @NumberOfstudent, Course = @Course
+
+	UPDATE dbo.Student SET [Group] = @Number WHERE @OldNumber
+WHERE 
+
+GO
+
+CREATE TRIGGER studentTrigger
+ON [Group]
+AFTER INSERT
+AS
+	DECLARE @OldNumber INT
+	DECLARE @Number INT
+
+	SET @OldNumber = (SELECT Inserted.Number FROM Inserted)
+	
+	INSERT [Group] (Number, NumberOfstudent, Course,IdSpecialty)
+	SELECT Number, NumberOfstudent, Course,IdSpecialty
+	FROM inserted
+
+	UPDATE Student SET Number = @Number
+	WHERE [Group] = @OldNumber
+
+
+WHERE 
+
+GO
+
+
+
+CREATE TRIGGER specialtyTrigger
+ON Specialty
+AFTER DELETE
+AS
+	DECLARE @IdSpec INT
+
+	SET @IdSpec = (SELECT Inserted.Id FROM Inserted)
+	
+	DELETE FROM Specialty WHERE Id = @IdSpec
+
+	DELETE FROM Student WHERE IdSpecialty = @IdSpec
+WHERE 
 GO
 
 
