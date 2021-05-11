@@ -137,116 +137,79 @@ SELECT * FROM Graduates WHERE IdStudent = 4
 DELETE dbo.Graduates WHERE IdStudent = 4
 
 
-CREATE TRIGGER groupTrigger
-ON [Group]
+ALTER TRIGGER studentTriggerAft
+ON Student
 AFTER UPDATE
 AS
-	DECLARE @OldNumber INT
-	DECLARE @IdSpecialty INT
-	DECLARE @Number INT
-	DECLARE @NumberOfstudent INT
+	DECLARE @Id INT
+	DECLARE @FirstName NVARCHAR(50)
+	DECLARE @MiddleName NVARCHAR(50)
+	DECLARE @LastName NVARCHAR(50)
 	DECLARE @Course INT
+	DECLARE @Group INT
+	DECLARE @OldGroup INT
+	DECLARE @DateOfReceipt DATETIME2
+	DECLARE @IdSpecialty INT
 
-
-
-	SET @OldNumber = (SELECT [Group] FROM [Group] WHERE Id = @Id)
+	SET @Id = (SELECT Id FROM Inserted)
 	SET @IdSpecialty = (SELECT  Inserted.IdSpecialty FROM Inserted)
-	SET @Number = (SELECT Inserted.Number FROM inserted)
-	SET @NumberOfstudent = (SELECT Inserted.NumberOfstudent FROM Inserted)
+	SET @FirstName = (SELECT Inserted.FirstName FROM inserted)
+	SET @MiddleName = (SELECT Inserted.MiddleName FROM Inserted)
+	SET @LastName = (SELECT Inserted.LastName FROM Inserted)
 	SET @Course = (SELECT Inserted.Course FROM Inserted)
+	SET @Group = (SELECT Inserted.[Group] FROM Inserted)
+	SET @DateOfReceipt = (SELECT Inserted.DateOfReceipt FROM Inserted)
 
-	SET 
-	UPDATE dbo.[Group] SET @Number= Number, IdSpecialty = @IdSpecialty, NumberOfstudent = @NumberOfstudent, Course = @Course
-	
-	UPDATE dbo.Student SET [Group] = @Number WHERE @OldNumber
-WHERE 
+	SET @OldGroup =  (SELECT [Group] FROM Deleted)
 
-GO
+	UPDATE dbo.Student SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, Course = @Course,
+	[Group] = @Group, DateOfReceipt = @DateOfReceipt,IdSpecialty = @IdSpecialty
+	WHERE @Id = Id
 
-CREATE TRIGGER studentTrigger
-ON [Group]
-AFTER INSERT
-AS
-	DECLARE @OldNumber INT
-	DECLARE @Number INT
-
-	SET @OldNumber = (SELECT Inserted.Number FROM Inserted)
-	
-	INSERT [Group] (Number, NumberOfstudent, Course,IdSpecialty)
-	SELECT Number, NumberOfstudent, Course,IdSpecialty
-	FROM inserted
-
-	UPDATE Student SET Number = @Number
-	WHERE [Group] = @OldNumber
-
-
-WHERE 
+	IF(@Group != @OldGroup) 
+		UPDATE dbo.[Group] SET NumberOfstudent += 1 WHERE Number = @Group
 
 GO
 
 
 
-CREATE TRIGGER specialtyTrigger
+SELECT * FROM Student JOIN [Group] ON Number=[group]
+
+SELECT * FROM Student WHERE [Group] = 2026371279
+
+SELECT * FROM [Group] WHERE Number = 2026371279
+SELECT * FROM [Group] WHERE Number = 652411300
+
+UPDATE dbo.Student SET [Group] = 652411300 WHERE Id = 23541
+
+SELECT * FROM [Group] WHERE Number = 2026371279
+SELECT * FROM [Group] WHERE Number = 652411300
+
+1025515425
+2026371279
+652411300
+978987186
+
+
+ALTER TRIGGER specialtyTrigger
 ON Specialty
 AFTER DELETE
 AS
 	DECLARE @IdSpec INT
 
-	SET @IdSpec = (SELECT Inserted.Id FROM Inserted)
+	SET @IdSpec = (SELECT DELETED.Id FROM DELETED)
 	
 	DELETE FROM Specialty WHERE Id = @IdSpec
 
-	DELETE FROM Student WHERE IdSpecialty = @IdSpec
-WHERE 
+	DELETE FROM [Group] WHERE IdSpecialty = @IdSpec
+
 GO
+SELECT * FROM Specialty WHERE Id = 1
 
+SELECT * FROM [Group] WHERE IdSpecialty = 1
 
+DELETE Specialty WHERE Id = 1
 
+SELECT * FROM Specialty WHERE Id = 1
 
-
-
-
-CREATE TRIGGER studentInsertAft
-ON Student
-AFTER INSERT
-AS
-DECLARE @Number INT
-
-DECLARE @Count INT
-
-BEGIN TRAN
-SET @Number = (SELECT [Group] FROM INSERTED)
-
-INSERT INTO Student(FirstName, MiddleName,LastName,Course,[Group], DateOfReceipt,IdSpecialty)
-SELECT FirstName, MiddleName,LastName,Course,[Group], DateOfReceipt,IdSpecialty
-FROM INSERTED 
-
-UPDATE [Group] SET NumberOfstudent += 1
-	FROM [Group]
-	WHERE (Number = @Number)
-
-SET @Count= (SELECT NumberOfstudent FROM [Group] WHERE Number = @Number)
-
-IF(@Count > 30)
-BEGIN 
-	RAISERROR('Запись не была добавлена, нельзя содержать в группе больше 30 человек', 16, 10)
-	ROLLBACK
-END 
-ELSE
-	COMMIT
-GO
-
-SELECT NumberOfstudent
-FROM dbo.[Group]
-WHERE Number = 2140311795
-
-INSERT INTO Student(FirstName, MiddleName,LastName,Course,[Group], DateOfReceipt, IdSpecialty)
-VALUES ('Laurie', 'Laurie','Laurie',968862639,2140311795, '1986-03-26',727)
-
-SELECT NumberOfstudent
-FROM dbo.[Group]
-WHERE Number = 2140311795
-
-DELETE FROM Student WHERE Id = 100011
-
-SELECT * FROM Student WHERE FirstName = 'Laurie' AND LastName = 'Laurie'
+SELECT * FROM [Group] WHERE IdSpecialty = 1
