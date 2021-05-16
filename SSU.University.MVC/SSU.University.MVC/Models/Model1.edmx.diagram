@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="41f48367a1614035aee52ceb0743bfa0" Name="Diagram1">
+        <EntityTypeShape EntityType="UniversityModel.Deducted" Width="1.5" PointX="12" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Departament" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Discipline" Width="1.5" PointX="10.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.EducationPlan" Width="1.5" PointX="12.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Employee" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Faculty" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Graduates" Width="1.5" PointX="12" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Group" Width="1.5" PointX="9.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Perfomance" Width="1.5" PointX="15" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Specialty" Width="1.5" PointX="7.5" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Student" Width="1.5" PointX="9.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.Transfer" Width="1.5" PointX="12" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversityModel.University" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <AssociationConnector Association="UniversityModel.FK__Deducted__IdStud__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Departame__IdFac__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Employee__IdDepe__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Specialty__IdDep__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Education__IdDis__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Perfomanc__IdDis__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Education__IdSpe__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Faculty__IdUnive__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Graduates__IdStu__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Group__IdSpecial__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Perfomanc__IdStu__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Student__IdSpeci__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="UniversityModel.FK__Transfer__IdStud__59FA5E80" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

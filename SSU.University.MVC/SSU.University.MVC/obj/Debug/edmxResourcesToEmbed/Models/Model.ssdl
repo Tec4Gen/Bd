@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UniversityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Deducted">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdStudent" Type="int" Nullable="false" />
+    <Property Name="DateDeducted" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Departament">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="IdFaculty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Discipline">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EducationPlan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdSpecialty" Type="int" Nullable="false" />
+    <Property Name="IdDiscipline" Type="int" Nullable="false" />
+    <Property Name="TotalTime" Type="int" Nullable="false" />
+    <Property Name="DateInstall" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdDepertament" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="IdUniversity" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Graduates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdStudent" Type="int" Nullable="false" />
+    <Property Name="DateGraduates" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="int" Nullable="false" />
+    <Property Name="NumberOfstudent" Type="int" Nullable="false" />
+    <Property Name="Course" Type="int" Nullable="false" />
+    <Property Name="IdSpecialty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Perfomance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdStudent" Type="int" Nullable="false" />
+    <Property Name="IdDiscipline" Type="int" Nullable="false" />
+    <Property Name="Evalution" Type="int" Nullable="false" />
+    <Property Name="DateOfDelivery" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Specialty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="IdDepartament" Type="int" Nullable="false" />
+    <Property Name="OpeningDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Course" Type="int" Nullable="false" />
+    <Property Name="Group" Type="int" Nullable="false" />
+    <Property Name="DateOfReceipt" Type="datetime" Nullable="false" />
+    <Property Name="IdSpecialty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transfer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdStudent" Type="int" />
+    <Property Name="IdOldUniversity" Type="int" Nullable="false" />
+    <Property Name="IdNewUniversity" Type="int" />
+    <Property Name="IdOldFaculty" Type="int" Nullable="false" />
+    <Property Name="IdOldGroup" Type="int" Nullable="false" />
+    <Property Name="IdNewGroup" Type="int" />
+    <Property Name="DateTransfer" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="University">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Deducted__IdStud__5441852A">
+    <End Role="Student" Type="Self.Student" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Deducted" Type="Self.Deducted" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Deducted">
+        <PropertyRef Name="IdStudent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Departame__IdFac__3C69FB99">
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Departament" Type="Self.Departament" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Departament">
+        <PropertyRef Name="IdFaculty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Education__IdDis__5165187F">
+    <End Role="Discipline" Type="Self.Discipline" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="EducationPlan" Type="Self.EducationPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discipline">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EducationPlan">
+        <PropertyRef Name="IdDiscipline" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Education__IdSpe__5070F446">
+    <End Role="Specialty" Type="Self.Specialty" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="EducationPlan" Type="Self.EducationPlan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EducationPlan">
+        <PropertyRef Name="IdSpecialty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Employee__IdDepe__47DBAE45">
+    <End Role="Departament" Type="Self.Departament" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="IdDepertament" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Faculty__IdUnive__398D8EEE">
+    <End Role="University" Type="Self.University" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Faculty" Type="Self.Faculty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Faculty">
+        <PropertyRef Name="IdUniversity" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Graduates__IdStu__571DF1D5">
+    <End Role="Student" Type="Self.Student" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Graduates">
+        <PropertyRef Name="IdStudent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Group__IdSpecial__44FF419A">
+    <End Role="Specialty" Type="Self.Specialty" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Group" Type="Self.Group" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="IdSpecialty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Perfomanc__IdDis__4D94879B">
+    <End Role="Discipline" Type="Self.Discipline" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Perfomance" Type="Self.Perfomance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discipline">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Perfomance">
+        <PropertyRef Name="IdDiscipline" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Perfomanc__IdStu__4CA06362">
+    <End Role="Student" Type="Self.Student" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Perfomance" Type="Self.Perfomance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Perfomance">
+        <PropertyRef Name="IdStudent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Specialty__IdDep__3F466844">
+    <End Role="Departament" Type="Self.Departament" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Specialty" Type="Self.Specialty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Specialty">
+        <PropertyRef Name="IdDepartament" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Student__IdSpeci__4222D4EF">
+    <End Role="Specialty" Type="Self.Specialty" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="IdSpecialty" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Transfer__IdStud__59FA5E80">
+    <End Role="Student" Type="Self.Student" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transfer">
+        <PropertyRef Name="IdStudent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UniversityModelStoreContainer">
+    <EntitySet Name="Deducted" EntityType="Self.Deducted" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Departament" EntityType="Self.Departament" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Discipline" EntityType="Self.Discipline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EducationPlan" EntityType="Self.EducationPlan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Graduates" EntityType="Self.Graduates" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Perfomance" EntityType="Self.Perfomance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Deducted__IdStud__5441852A" Association="Self.FK__Deducted__IdStud__5441852A">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Deducted" EntitySet="Deducted" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Departame__IdFac__3C69FB99" Association="Self.FK__Departame__IdFac__3C69FB99">
+      <End Role="Faculty" EntitySet="Faculty" />
+      <End Role="Departament" EntitySet="Departament" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Education__IdDis__5165187F" Association="Self.FK__Education__IdDis__5165187F">
+      <End Role="Discipline" EntitySet="Discipline" />
+      <End Role="EducationPlan" EntitySet="EducationPlan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Education__IdSpe__5070F446" Association="Self.FK__Education__IdSpe__5070F446">
+      <End Role="Specialty" EntitySet="Specialty" />
+      <End Role="EducationPlan" EntitySet="EducationPlan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Employee__IdDepe__47DBAE45" Association="Self.FK__Employee__IdDepe__47DBAE45">
+      <End Role="Departament" EntitySet="Departament" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Faculty__IdUnive__398D8EEE" Association="Self.FK__Faculty__IdUnive__398D8EEE">
+      <End Role="University" EntitySet="University" />
+      <End Role="Faculty" EntitySet="Faculty" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Graduates__IdStu__571DF1D5" Association="Self.FK__Graduates__IdStu__571DF1D5">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Graduates" EntitySet="Graduates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Group__IdSpecial__44FF419A" Association="Self.FK__Group__IdSpecial__44FF419A">
+      <End Role="Specialty" EntitySet="Specialty" />
+      <End Role="Group" EntitySet="Group" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Perfomanc__IdDis__4D94879B" Association="Self.FK__Perfomanc__IdDis__4D94879B">
+      <End Role="Discipline" EntitySet="Discipline" />
+      <End Role="Perfomance" EntitySet="Perfomance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Perfomanc__IdStu__4CA06362" Association="Self.FK__Perfomanc__IdStu__4CA06362">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Perfomance" EntitySet="Perfomance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Specialty__IdDep__3F466844" Association="Self.FK__Specialty__IdDep__3F466844">
+      <End Role="Departament" EntitySet="Departament" />
+      <End Role="Specialty" EntitySet="Specialty" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Student__IdSpeci__4222D4EF" Association="Self.FK__Student__IdSpeci__4222D4EF">
+      <End Role="Specialty" EntitySet="Specialty" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Transfer__IdStud__59FA5E80" Association="Self.FK__Transfer__IdStud__59FA5E80">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Transfer" EntitySet="Transfer" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
