@@ -17,7 +17,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Disciplines
         public ActionResult Index()
         {
-            return View(db.Discipline.ToList());
+            return View(db.Disciplines.ToList());
         }
 
         // GET: Disciplines/Details/5
@@ -27,7 +27,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Discipline discipline = db.Discipline.Find(id);
+            Discipline discipline = db.Disciplines.Find(id);
             if (discipline == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Discipline.Add(discipline);
+                db.Disciplines.Add(discipline);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Discipline discipline = db.Discipline.Find(id);
+            Discipline discipline = db.Disciplines.Find(id);
             if (discipline == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Discipline discipline = db.Discipline.Find(id);
+            Discipline discipline = db.Disciplines.Find(id);
             if (discipline == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Discipline discipline = db.Discipline.Find(id);
-            db.Discipline.Remove(discipline);
+            Discipline discipline = db.Disciplines.Find(id);
+            db.Disciplines.Remove(discipline);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

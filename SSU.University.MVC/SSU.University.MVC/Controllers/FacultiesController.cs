@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Faculties
         public ActionResult Index()
         {
-            var faculty = db.Faculty.Include(f => f.University);
-            return View(faculty.ToList());
+            var faculties = db.Faculties.Include(f => f.University);
+            return View(faculties.ToList());
         }
 
         // GET: Faculties/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Faculty faculty = db.Faculty.Find(id);
+            Faculty faculty = db.Faculties.Find(id);
             if (faculty == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Faculties/Create
         public ActionResult Create()
         {
-            ViewBag.IdUniversity = new SelectList(db.University, "Id", "Title");
+            ViewBag.IdUniversity = new SelectList(db.Universities, "Id", "Title");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Faculty.Add(faculty);
+                db.Faculties.Add(faculty);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdUniversity = new SelectList(db.University, "Id", "Title", faculty.IdUniversity);
+            ViewBag.IdUniversity = new SelectList(db.Universities, "Id", "Title", faculty.IdUniversity);
             return View(faculty);
         }
 
@@ -68,12 +68,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Faculty faculty = db.Faculty.Find(id);
+            Faculty faculty = db.Faculties.Find(id);
             if (faculty == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdUniversity = new SelectList(db.University, "Id", "Title", faculty.IdUniversity);
+            ViewBag.IdUniversity = new SelectList(db.Universities, "Id", "Title", faculty.IdUniversity);
             return View(faculty);
         }
 
@@ -90,7 +90,7 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdUniversity = new SelectList(db.University, "Id", "Title", faculty.IdUniversity);
+            ViewBag.IdUniversity = new SelectList(db.Universities, "Id", "Title", faculty.IdUniversity);
             return View(faculty);
         }
 
@@ -101,7 +101,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Faculty faculty = db.Faculty.Find(id);
+            Faculty faculty = db.Faculties.Find(id);
             if (faculty == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Faculty faculty = db.Faculty.Find(id);
-            db.Faculty.Remove(faculty);
+            Faculty faculty = db.Faculties.Find(id);
+            db.Faculties.Remove(faculty);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

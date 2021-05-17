@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Groups
         public ActionResult Index()
         {
-            var group = db.Group.Include(g => g.Specialty);
-            return View(group.ToList());
+            var groups = db.Groups.Include(g => g.Specialty);
+            return View(groups.ToList());
         }
 
         // GET: Groups/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Group.Find(id);
+            Group group = db.Groups.Find(id);
             if (group == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Groups/Create
         public ActionResult Create()
         {
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title");
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Group.Add(group);
+                db.Groups.Add(group);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", group.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", group.IdSpecialty);
             return View(group);
         }
 
@@ -68,12 +68,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Group.Find(id);
+            Group group = db.Groups.Find(id);
             if (group == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", group.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", group.IdSpecialty);
             return View(group);
         }
 
@@ -90,7 +90,7 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", group.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", group.IdSpecialty);
             return View(group);
         }
 
@@ -101,7 +101,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Group.Find(id);
+            Group group = db.Groups.Find(id);
             if (group == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Group group = db.Group.Find(id);
-            db.Group.Remove(group);
+            Group group = db.Groups.Find(id);
+            db.Groups.Remove(group);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

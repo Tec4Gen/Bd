@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Transfers
         public ActionResult Index()
         {
-            var transfer = db.Transfer.Include(t => t.Student);
-            return View(transfer.ToList());
+            var transfers = db.Transfers.Include(t => t.Student);
+            return View(transfers.ToList());
         }
 
         // GET: Transfers/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Transfer transfer = db.Transfer.Find(id);
+            Transfer transfer = db.Transfers.Find(id);
             if (transfer == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Transfers/Create
         public ActionResult Create()
         {
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName");
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Transfer.Add(transfer);
+                db.Transfers.Add(transfer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", transfer.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", transfer.IdStudent);
             return View(transfer);
         }
 
@@ -68,12 +68,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Transfer transfer = db.Transfer.Find(id);
+            Transfer transfer = db.Transfers.Find(id);
             if (transfer == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", transfer.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", transfer.IdStudent);
             return View(transfer);
         }
 
@@ -90,7 +90,7 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", transfer.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", transfer.IdStudent);
             return View(transfer);
         }
 
@@ -101,7 +101,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Transfer transfer = db.Transfer.Find(id);
+            Transfer transfer = db.Transfers.Find(id);
             if (transfer == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Transfer transfer = db.Transfer.Find(id);
-            db.Transfer.Remove(transfer);
+            Transfer transfer = db.Transfers.Find(id);
+            db.Transfers.Remove(transfer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

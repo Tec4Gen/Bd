@@ -67,6 +67,14 @@
             @Html.DisplayFor(model => model.Specialty.Title)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Login)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

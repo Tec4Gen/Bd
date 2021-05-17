@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SSU.University.MVC.Controllers
 {
@@ -32,26 +33,52 @@ namespace SSU.University.MVC.Controllers
 
             return View();
         }
-
+        [HttpGet]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
         [HttpPost]
-        public ActionResult Login([Bind(Include = "Id,LastName")] User user)
+        public ActionResult Login(Models.User model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                if (user.FirstName == "Admin" && user.LastName == "Admin")
-                    return View("Admin");
-
-                var employee = db.Employee.FirstOrDefault(c => c.FirstName == user.FirstName && c.LastName == user.LastName);
-                var student = db.Student.FirstOrDefault(t => t.FirstName == user.FirstName && t.LastName == user.LastName);
-
-                if (employee != null)
-                    return RedirectToAction("Details", "Employee", new { Id = employee.Id });
-
-                if (student != null)
-                    return RedirectToAction("Details", "Student", new { Id = student.Id });
+                if (db.Users.Any(p=> p.Login == model.Login))
+                {
+                    FormsAuthentication.SetAuthCookie(model.Login, createPersistentCookie: true);
+                    if (returnUrl != null)
+                    {
+                        return Redirect("Login");
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Bad login/password");
+                    return View(model);
+                }
             }
+            return View(model);
+        }
 
-            return View("Modal");
+        [ChildActionOnly]
+        public ActionResult LoginBlock()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return PartialView("_LogoutPartial");
+            }
+            else
+            {
+                return PartialView("_LoginPartial");
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
         }
     }
 }

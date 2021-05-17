@@ -133,16 +133,19 @@
     <Compile Include="Controllers\DisciplinesController.cs" />
     <Compile Include="Controllers\EducationPlansController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\EpmDepViewsController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\GraduatesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PerfomancesController.cs" />
+    <Compile Include="Controllers\ProcController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SpecialtiesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\TransfersController.cs" />
     <Compile Include="Controllers\UniversitiesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\SSUUniversityMVCContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -162,10 +165,19 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EpmDepView.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Faculty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Graduates.cs">
+    <Compile Include="Models\GetAllStudnet_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStudentBydateReceipt_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Graduate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Group.cs">
@@ -186,7 +198,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MyRoleProvider.cs" />
     <Compile Include="Models\Perfomance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Specialty.cs">
@@ -195,10 +211,16 @@
     <Compile Include="Models\Student.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\University.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,21 +291,84 @@
     <Content Include="Views\Universities\Index.cshtml" />
     <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Transfers\Create.cshtml" />
+    <Content Include="Views\Transfers\Delete.cshtml" />
+    <Content Include="Views\Transfers\Details.cshtml" />
+    <Content Include="Views\Transfers\Edit.cshtml" />
+    <Content Include="Views\Transfers\Index.cshtml" />
+    <Content Include="Views\Specialties\Create.cshtml" />
+    <Content Include="Views\Specialties\Delete.cshtml" />
+    <Content Include="Views\Specialties\Details.cshtml" />
+    <Content Include="Views\Specialties\Edit.cshtml" />
+    <Content Include="Views\Specialties\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Perfomances\Create.cshtml" />
+    <Content Include="Views\Perfomances\Delete.cshtml" />
+    <Content Include="Views\Perfomances\Details.cshtml" />
+    <Content Include="Views\Perfomances\Edit.cshtml" />
+    <Content Include="Views\Perfomances\Index.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Graduates\Create.cshtml" />
+    <Content Include="Views\Graduates\Delete.cshtml" />
+    <Content Include="Views\Graduates\Details.cshtml" />
+    <Content Include="Views\Graduates\Edit.cshtml" />
+    <Content Include="Views\Graduates\Index.cshtml" />
+    <Content Include="Views\Faculties\Create.cshtml" />
+    <Content Include="Views\Faculties\Delete.cshtml" />
+    <Content Include="Views\Faculties\Details.cshtml" />
+    <Content Include="Views\Faculties\Edit.cshtml" />
+    <Content Include="Views\Faculties\Index.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\EducationPlans\Create.cshtml" />
+    <Content Include="Views\EducationPlans\Delete.cshtml" />
+    <Content Include="Views\EducationPlans\Details.cshtml" />
+    <Content Include="Views\EducationPlans\Edit.cshtml" />
+    <Content Include="Views\EducationPlans\Index.cshtml" />
+    <Content Include="Views\Disciplines\Create.cshtml" />
+    <Content Include="Views\Disciplines\Delete.cshtml" />
+    <Content Include="Views\Disciplines\Details.cshtml" />
+    <Content Include="Views\Disciplines\Edit.cshtml" />
+    <Content Include="Views\Disciplines\Index.cshtml" />
+    <Content Include="Views\Departaments\Create.cshtml" />
+    <Content Include="Views\Departaments\Delete.cshtml" />
+    <Content Include="Views\Departaments\Details.cshtml" />
+    <Content Include="Views\Departaments\Edit.cshtml" />
+    <Content Include="Views\Departaments\Index.cshtml" />
+    <Content Include="Views\Deducteds\Create.cshtml" />
+    <Content Include="Views\Deducteds\Delete.cshtml" />
+    <Content Include="Views\Deducteds\Details.cshtml" />
+    <Content Include="Views\Deducteds\Edit.cshtml" />
+    <Content Include="Views\Deducteds\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_LogoutPartial.cshtml" />
+    <Content Include="Views\EpmDepViews\Create.cshtml" />
+    <Content Include="Views\EpmDepViews\Delete.cshtml" />
+    <Content Include="Views\EpmDepViews\Details.cshtml" />
+    <Content Include="Views\EpmDepViews\Edit.cshtml" />
+    <Content Include="Views\Proc\StudentsByDate.cshtml" />
+    <Content Include="Views\Proc\GetAllStudnet.cshtml" />
+    <Content Include="Views\EpmDepViews\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Deducteds\" />
-    <Folder Include="Views\Departaments\" />
-    <Folder Include="Views\Disciplines\" />
-    <Folder Include="Views\EducationPlans\" />
-    <Folder Include="Views\Employees\" />
-    <Folder Include="Views\Faculties\" />
-    <Folder Include="Views\Graduates\" />
-    <Folder Include="Views\Groups\" />
-    <Folder Include="Views\Perfomances\" />
-    <Folder Include="Views\Specialties\" />
-    <Folder Include="Views\Transfers\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

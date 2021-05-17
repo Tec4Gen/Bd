@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Departament()
         {
-            this.Employee = new HashSet<Employee>();
-            this.Specialty = new HashSet<Specialty>();
+            this.Employees = new HashSet<Employee>();
+            this.Specialties = new HashSet<Specialty>();
         }
     
         public int Id { get; set; }
@@ -27,8 +27,8 @@ namespace SSU.University.MVC.Models
     
         public virtual Faculty Faculty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Specialty> Specialty { get; set; }
+        public virtual ICollection<Specialty> Specialties { get; set; }
     }
 }

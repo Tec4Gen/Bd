@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Perfomances
         public ActionResult Index()
         {
-            var perfomance = db.Perfomance.Include(p => p.Discipline).Include(p => p.Student);
-            return View(perfomance.ToList());
+            var perfomances = db.Perfomances.Include(p => p.Discipline).Include(p => p.Student);
+            return View(perfomances.ToList());
         }
 
         // GET: Perfomances/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Perfomance perfomance = db.Perfomance.Find(id);
+            Perfomance perfomance = db.Perfomances.Find(id);
             if (perfomance == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Perfomances/Create
         public ActionResult Create()
         {
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title");
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName");
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title");
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Perfomance.Add(perfomance);
+                db.Perfomances.Add(perfomance);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", perfomance.IdDiscipline);
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", perfomance.IdStudent);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", perfomance.IdDiscipline);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", perfomance.IdStudent);
             return View(perfomance);
         }
 
@@ -70,13 +70,13 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Perfomance perfomance = db.Perfomance.Find(id);
+            Perfomance perfomance = db.Perfomances.Find(id);
             if (perfomance == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", perfomance.IdDiscipline);
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", perfomance.IdStudent);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", perfomance.IdDiscipline);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", perfomance.IdStudent);
             return View(perfomance);
         }
 
@@ -93,8 +93,8 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", perfomance.IdDiscipline);
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", perfomance.IdStudent);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", perfomance.IdDiscipline);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", perfomance.IdStudent);
             return View(perfomance);
         }
 
@@ -105,7 +105,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Perfomance perfomance = db.Perfomance.Find(id);
+            Perfomance perfomance = db.Perfomances.Find(id);
             if (perfomance == null)
             {
                 return HttpNotFound();
@@ -118,8 +118,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Perfomance perfomance = db.Perfomance.Find(id);
-            db.Perfomance.Remove(perfomance);
+            Perfomance perfomance = db.Perfomances.Find(id);
+            db.Perfomances.Remove(perfomance);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Specialties
         public ActionResult Index()
         {
-            var specialty = db.Specialty.Include(s => s.Departament);
-            return View(specialty.ToList());
+            var specialties = db.Specialties.Include(s => s.Departament);
+            return View(specialties.ToList());
         }
 
         // GET: Specialties/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specialty specialty = db.Specialty.Find(id);
+            Specialty specialty = db.Specialties.Find(id);
             if (specialty == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Specialties/Create
         public ActionResult Create()
         {
-            ViewBag.IdDepartament = new SelectList(db.Departament, "Id", "Title");
+            ViewBag.IdDepartament = new SelectList(db.Departaments, "Id", "Title");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Specialty.Add(specialty);
+                db.Specialties.Add(specialty);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDepartament = new SelectList(db.Departament, "Id", "Title", specialty.IdDepartament);
+            ViewBag.IdDepartament = new SelectList(db.Departaments, "Id", "Title", specialty.IdDepartament);
             return View(specialty);
         }
 
@@ -68,12 +68,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specialty specialty = db.Specialty.Find(id);
+            Specialty specialty = db.Specialties.Find(id);
             if (specialty == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDepartament = new SelectList(db.Departament, "Id", "Title", specialty.IdDepartament);
+            ViewBag.IdDepartament = new SelectList(db.Departaments, "Id", "Title", specialty.IdDepartament);
             return View(specialty);
         }
 
@@ -90,7 +90,7 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDepartament = new SelectList(db.Departament, "Id", "Title", specialty.IdDepartament);
+            ViewBag.IdDepartament = new SelectList(db.Departaments, "Id", "Title", specialty.IdDepartament);
             return View(specialty);
         }
 
@@ -101,7 +101,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Specialty specialty = db.Specialty.Find(id);
+            Specialty specialty = db.Specialties.Find(id);
             if (specialty == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Specialty specialty = db.Specialty.Find(id);
-            db.Specialty.Remove(specialty);
+            Specialty specialty = db.Specialties.Find(id);
+            db.Specialties.Remove(specialty);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Students
         public ActionResult Index()
         {
-            var student = db.Student.Include(s => s.Specialty);
-            return View(student.ToList());
+            var students = db.Students.Include(s => s.Specialty).Include(s => s.User);
+            return View(students.ToList());
         }
 
         // GET: Students/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Student.Find(id);
+            Student student = db.Students.Find(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title");
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title");
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login");
             return View();
         }
 
@@ -48,16 +49,17 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,MiddleName,LastName,Course,Group,DateOfReceipt,IdSpecialty")] Student student)
+        public ActionResult Create([Bind(Include = "Id,FirstName,MiddleName,LastName,Course,Group,DateOfReceipt,IdSpecialty,IdUser")] Student student)
         {
             if (ModelState.IsValid)
             {
-                db.Student.Add(student);
+                db.Students.Add(student);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", student.IdUser);
             return View(student);
         }
 
@@ -68,12 +70,13 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Student.Find(id);
+            Student student = db.Students.Find(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", student.IdUser);
             return View(student);
         }
 
@@ -82,7 +85,7 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,MiddleName,LastName,Course,Group,DateOfReceipt,IdSpecialty")] Student student)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,MiddleName,LastName,Course,Group,DateOfReceipt,IdSpecialty,IdUser")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +93,8 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", student.IdSpecialty);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", student.IdUser);
             return View(student);
         }
 
@@ -101,7 +105,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Student.Find(id);
+            Student student = db.Students.Find(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -114,8 +118,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Student.Find(id);
-            db.Student.Remove(student);
+            Student student = db.Students.Find(id);
+            db.Students.Remove(student);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

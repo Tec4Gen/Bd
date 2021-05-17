@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SSU.University.MVC.Models;
+
 namespace SSU.University.MVC.Controllers
 {
     public class UniversitiesController : Controller
@@ -16,7 +17,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Universities
         public ActionResult Index()
         {
-            return View(db.University.ToList());
+            return View(db.Universities.ToList());
         }
 
         // GET: Universities/Details/5
@@ -26,7 +27,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Models.University university = db.University.Find(id);
+            Models.University university = db.Universities.Find(id);
             if (university == null)
             {
                 return HttpNotFound();
@@ -49,7 +50,7 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.University.Add(university);
+                db.Universities.Add(university);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -64,7 +65,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Models.University university = db.University.Find(id);
+            Models.University university = db.Universities.Find(id);
             if (university == null)
             {
                 return HttpNotFound();
@@ -95,7 +96,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Models.University university = db.University.Find(id);
+            Models.University university = db.Universities.Find(id);
             if (university == null)
             {
                 return HttpNotFound();
@@ -108,8 +109,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Models.University university = db.University.Find(id);
-            db.University.Remove(university);
+            Models.University university = db.Universities.Find(id);
+            db.Universities.Remove(university);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

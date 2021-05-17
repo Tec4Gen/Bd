@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="UniversityModelStoreContainer" CdmEntityContainer="UniversityEntities">
-    <EntitySetMapping Name="Deducted">
+    <EntitySetMapping Name="Deducteds">
       <EntityTypeMapping TypeName="UniversityModel.Deducted">
         <MappingFragment StoreEntitySet="Deducted">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -10,7 +10,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Departament">
+    <EntitySetMapping Name="Departaments">
       <EntityTypeMapping TypeName="UniversityModel.Departament">
         <MappingFragment StoreEntitySet="Departament">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -19,7 +19,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Discipline">
+    <EntitySetMapping Name="Disciplines">
       <EntityTypeMapping TypeName="UniversityModel.Discipline">
         <MappingFragment StoreEntitySet="Discipline">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -27,7 +27,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EducationPlan">
+    <EntitySetMapping Name="EducationPlans">
       <EntityTypeMapping TypeName="UniversityModel.EducationPlan">
         <MappingFragment StoreEntitySet="EducationPlan">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -38,7 +38,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Employee">
+    <EntitySetMapping Name="Employees">
       <EntityTypeMapping TypeName="UniversityModel.Employee">
         <MappingFragment StoreEntitySet="Employee">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -46,10 +46,11 @@
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
           <ScalarProperty Name="IdDepertament" ColumnName="IdDepertament" />
+          <ScalarProperty Name="IdUser" ColumnName="IdUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Faculty">
+    <EntitySetMapping Name="Faculties">
       <EntityTypeMapping TypeName="UniversityModel.Faculty">
         <MappingFragment StoreEntitySet="Faculty">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -59,7 +60,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Graduates">
-      <EntityTypeMapping TypeName="UniversityModel.Graduates">
+      <EntityTypeMapping TypeName="UniversityModel.Graduate">
         <MappingFragment StoreEntitySet="Graduates">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
@@ -67,7 +68,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Group">
+    <EntitySetMapping Name="Groups">
       <EntityTypeMapping TypeName="UniversityModel.Group">
         <MappingFragment StoreEntitySet="Group">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -78,7 +79,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Perfomance">
+    <EntitySetMapping Name="Perfomances">
       <EntityTypeMapping TypeName="UniversityModel.Perfomance">
         <MappingFragment StoreEntitySet="Perfomance">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -89,7 +90,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Specialty">
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="UniversityModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specialties">
       <EntityTypeMapping TypeName="UniversityModel.Specialty">
         <MappingFragment StoreEntitySet="Specialty">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -99,7 +108,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Student">
+    <EntitySetMapping Name="Students">
       <EntityTypeMapping TypeName="UniversityModel.Student">
         <MappingFragment StoreEntitySet="Student">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -110,10 +119,22 @@
           <ScalarProperty Name="Group" ColumnName="Group" />
           <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
           <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+          <ScalarProperty Name="IdUser" ColumnName="IdUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Transfer">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="UniversityModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transfers">
       <EntityTypeMapping TypeName="UniversityModel.Transfer">
         <MappingFragment StoreEntitySet="Transfer">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -127,7 +148,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="University">
+    <EntitySetMapping Name="Universities">
       <EntityTypeMapping TypeName="UniversityModel.University">
         <MappingFragment StoreEntitySet="University">
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -135,5 +156,54 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="UniversityModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EpmDepViews">
+      <EntityTypeMapping TypeName="UniversityModel.EpmDepView">
+        <MappingFragment StoreEntitySet="EpmDepView">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="Evalution" ColumnName="Evalution" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetAllStudnet" FunctionName="UniversityModel.Store.GetAllStudnet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="UniversityModel.GetAllStudnet_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetStudentBydateReceipt" FunctionName="UniversityModel.Store.GetStudentBydateReceipt">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="UniversityModel.GetStudentBydateReceipt_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
+          <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

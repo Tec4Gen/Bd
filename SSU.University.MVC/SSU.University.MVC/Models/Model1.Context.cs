@@ -12,7 +12,9 @@ namespace SSU.University.MVC.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Linq;
+    using System.Collections.Generic;
+
     public partial class UniversityEntities : DbContext
     {
         public UniversityEntities()
@@ -25,18 +27,32 @@ namespace SSU.University.MVC.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Deducted> Deducted { get; set; }
-        public virtual DbSet<Departament> Departament { get; set; }
-        public virtual DbSet<Discipline> Discipline { get; set; }
-        public virtual DbSet<EducationPlan> EducationPlan { get; set; }
-        public virtual DbSet<Employee> Employee { get; set; }
-        public virtual DbSet<Faculty> Faculty { get; set; }
-        public virtual DbSet<Graduates> Graduates { get; set; }
-        public virtual DbSet<Group> Group { get; set; }
-        public virtual DbSet<Perfomance> Perfomance { get; set; }
-        public virtual DbSet<Specialty> Specialty { get; set; }
-        public virtual DbSet<Student> Student { get; set; }
-        public virtual DbSet<Transfer> Transfer { get; set; }
-        public virtual DbSet<University> University { get; set; }
+        public virtual DbSet<Deducted> Deducteds { get; set; }
+        public virtual DbSet<Departament> Departaments { get; set; }
+        public virtual DbSet<Discipline> Disciplines { get; set; }
+        public virtual DbSet<EducationPlan> EducationPlans { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Faculty> Faculties { get; set; }
+        public virtual DbSet<Graduate> Graduates { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Perfomance> Perfomances { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Specialty> Specialties { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Transfer> Transfers { get; set; }
+        public virtual DbSet<University> Universities { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<EpmDepView> EpmDepViews { get; set; }
+    
+        public virtual IEnumerable<Student> GetAllStudnet()
+        {
+            return Students;
+        }
+    
+        public virtual IEnumerable<Student> GetStudentBydateReceipt(Nullable<System.DateTime> dateReceipt)
+        {
+            return Students.Where(p => p.DateOfReceipt == dateReceipt);
+        }
     }
 }

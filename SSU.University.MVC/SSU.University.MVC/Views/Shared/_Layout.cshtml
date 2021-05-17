@@ -8,16 +8,42 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
+
             <div class="navbar-header">
+
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Действия
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>@Html.ActionLink("Students", "Index", "Students")</li>
+                        <li>@Html.ActionLink("University", "Index", "Universities")</li>
+                        <li>@Html.ActionLink("Specialty", "Index", "Specialties")</li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Group", "Index", "Groups")</li>
+                            <li>@Html.ActionLink("Deducted", "Index", "Deducteds")</li>
+                            <li>@Html.ActionLink("Graduate", "Index", "Graduates")</li>
+                            <li>@Html.ActionLink("Discipline", "Index", "Disciplines")</li>
+                            <li>@Html.ActionLink("Departament", "Index", "Departaments")</li>
+                            <li>@Html.ActionLink("Perfomance", "Index", "Perfomances")</li>
+                            <li>@Html.ActionLink("Employee", "Index", "Employees")</li>
+                            <li>@Html.ActionLink("Вызов представления", "Index", "EpmDepViews")</li>
+                            <li>@Html.ActionLink("Вызов хранимки получить всех студентов", "GetAllStudnet", "Proc")</li>
+                        }
+                    </div>
+                </div>
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -25,9 +51,16 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>
+            @Html.Action("LoginBlock", "Home")
+
         </div>
     </div>
+    <hr />
+    <hr />
+    <hr />
+    <hr />
     <div class="container body-content">
+
         @RenderBody()
         <hr />
         <footer>

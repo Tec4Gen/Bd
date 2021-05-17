@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Deducteds
         public ActionResult Index()
         {
-            var deducted = db.Deducted.Include(d => d.Student);
-            return View(deducted.ToList());
+            var deducteds = db.Deducteds.Include(d => d.Student);
+            return View(deducteds.ToList());
         }
 
         // GET: Deducteds/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deducted deducted = db.Deducted.Find(id);
+            Deducted deducted = db.Deducteds.Find(id);
             if (deducted == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace SSU.University.MVC.Controllers
         // GET: Deducteds/Create
         public ActionResult Create()
         {
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName");
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName");
             return View();
         }
 
@@ -52,12 +52,12 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Deducted.Add(deducted);
+                db.Deducteds.Add(deducted);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", deducted.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", deducted.IdStudent);
             return View(deducted);
         }
 
@@ -68,12 +68,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deducted deducted = db.Deducted.Find(id);
+            Deducted deducted = db.Deducteds.Find(id);
             if (deducted == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", deducted.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", deducted.IdStudent);
             return View(deducted);
         }
 
@@ -90,7 +90,7 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", deducted.IdStudent);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", deducted.IdStudent);
             return View(deducted);
         }
 
@@ -101,7 +101,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Deducted deducted = db.Deducted.Find(id);
+            Deducted deducted = db.Deducteds.Find(id);
             if (deducted == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Deducted deducted = db.Deducted.Find(id);
-            db.Deducted.Remove(deducted);
+            Deducted deducted = db.Deducteds.Find(id);
+            db.Deducteds.Remove(deducted);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

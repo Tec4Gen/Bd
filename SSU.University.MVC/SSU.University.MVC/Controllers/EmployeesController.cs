@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            var employee = db.Employee.Include(e => e.Departament);
-            return View(employee.ToList());
+            var employees = db.Employees.Include(e => e.Departament).Include(e => e.User);
+            return View(employees.ToList());
         }
 
         // GET: Employees/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = db.Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,8 @@ namespace SSU.University.MVC.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            ViewBag.IdDepertament = new SelectList(db.Departament, "Id", "Title");
+            ViewBag.IdDepertament = new SelectList(db.Departaments, "Id", "Title");
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login");
             return View();
         }
 
@@ -48,16 +49,17 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,MiddleName,IdDepertament")] Employee employee)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,MiddleName,IdDepertament,IdUser")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Employee.Add(employee);
+                db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDepertament = new SelectList(db.Departament, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdDepertament = new SelectList(db.Departaments, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", employee.IdUser);
             return View(employee);
         }
 
@@ -68,12 +70,13 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = db.Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDepertament = new SelectList(db.Departament, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdDepertament = new SelectList(db.Departaments, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", employee.IdUser);
             return View(employee);
         }
 
@@ -82,7 +85,7 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,MiddleName,IdDepertament")] Employee employee)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,MiddleName,IdDepertament,IdUser")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +93,8 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDepertament = new SelectList(db.Departament, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdDepertament = new SelectList(db.Departaments, "Id", "Title", employee.IdDepertament);
+            ViewBag.IdUser = new SelectList(db.Users, "Id", "Login", employee.IdUser);
             return View(employee);
         }
 
@@ -101,7 +105,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = db.Employees.Find(id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -114,8 +118,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Employee employee = db.Employee.Find(id);
-            db.Employee.Remove(employee);
+            Employee employee = db.Employees.Find(id);
+            db.Employees.Remove(employee);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

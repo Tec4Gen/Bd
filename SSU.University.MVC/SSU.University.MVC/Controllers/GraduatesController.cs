@@ -28,18 +28,18 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Graduates graduates = db.Graduates.Find(id);
-            if (graduates == null)
+            Graduate graduate = db.Graduates.Find(id);
+            if (graduate == null)
             {
                 return HttpNotFound();
             }
-            return View(graduates);
+            return View(graduate);
         }
 
         // GET: Graduates/Create
         public ActionResult Create()
         {
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName");
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName");
             return View();
         }
 
@@ -48,17 +48,17 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,IdStudent,DateGraduates")] Graduates graduates)
+        public ActionResult Create([Bind(Include = "Id,IdStudent,DateGraduates")] Graduate graduate)
         {
             if (ModelState.IsValid)
             {
-                db.Graduates.Add(graduates);
+                db.Graduates.Add(graduate);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", graduates.IdStudent);
-            return View(graduates);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", graduate.IdStudent);
+            return View(graduate);
         }
 
         // GET: Graduates/Edit/5
@@ -68,13 +68,13 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Graduates graduates = db.Graduates.Find(id);
-            if (graduates == null)
+            Graduate graduate = db.Graduates.Find(id);
+            if (graduate == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", graduates.IdStudent);
-            return View(graduates);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", graduate.IdStudent);
+            return View(graduate);
         }
 
         // POST: Graduates/Edit/5
@@ -82,16 +82,16 @@ namespace SSU.University.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,IdStudent,DateGraduates")] Graduates graduates)
+        public ActionResult Edit([Bind(Include = "Id,IdStudent,DateGraduates")] Graduate graduate)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(graduates).State = EntityState.Modified;
+                db.Entry(graduate).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdStudent = new SelectList(db.Student, "Id", "FirstName", graduates.IdStudent);
-            return View(graduates);
+            ViewBag.IdStudent = new SelectList(db.Students, "Id", "FirstName", graduate.IdStudent);
+            return View(graduate);
         }
 
         // GET: Graduates/Delete/5
@@ -101,12 +101,12 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Graduates graduates = db.Graduates.Find(id);
-            if (graduates == null)
+            Graduate graduate = db.Graduates.Find(id);
+            if (graduate == null)
             {
                 return HttpNotFound();
             }
-            return View(graduates);
+            return View(graduate);
         }
 
         // POST: Graduates/Delete/5
@@ -114,8 +114,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Graduates graduates = db.Graduates.Find(id);
-            db.Graduates.Remove(graduates);
+            Graduate graduate = db.Graduates.Find(id);
+            db.Graduates.Remove(graduate);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

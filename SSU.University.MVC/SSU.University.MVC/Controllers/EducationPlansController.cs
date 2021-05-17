@@ -17,8 +17,8 @@ namespace SSU.University.MVC.Controllers
         // GET: EducationPlans
         public ActionResult Index()
         {
-            var educationPlan = db.EducationPlan.Include(e => e.Discipline).Include(e => e.Specialty);
-            return View(educationPlan.ToList());
+            var educationPlans = db.EducationPlans.Include(e => e.Discipline).Include(e => e.Specialty);
+            return View(educationPlans.ToList());
         }
 
         // GET: EducationPlans/Details/5
@@ -28,7 +28,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EducationPlan educationPlan = db.EducationPlan.Find(id);
+            EducationPlan educationPlan = db.EducationPlans.Find(id);
             if (educationPlan == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace SSU.University.MVC.Controllers
         // GET: EducationPlans/Create
         public ActionResult Create()
         {
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title");
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title");
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title");
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace SSU.University.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.EducationPlan.Add(educationPlan);
+                db.EducationPlans.Add(educationPlan);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", educationPlan.IdDiscipline);
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", educationPlan.IdSpecialty);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", educationPlan.IdDiscipline);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", educationPlan.IdSpecialty);
             return View(educationPlan);
         }
 
@@ -70,13 +70,13 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EducationPlan educationPlan = db.EducationPlan.Find(id);
+            EducationPlan educationPlan = db.EducationPlans.Find(id);
             if (educationPlan == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", educationPlan.IdDiscipline);
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", educationPlan.IdSpecialty);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", educationPlan.IdDiscipline);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", educationPlan.IdSpecialty);
             return View(educationPlan);
         }
 
@@ -93,8 +93,8 @@ namespace SSU.University.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdDiscipline = new SelectList(db.Discipline, "Id", "Title", educationPlan.IdDiscipline);
-            ViewBag.IdSpecialty = new SelectList(db.Specialty, "Id", "Title", educationPlan.IdSpecialty);
+            ViewBag.IdDiscipline = new SelectList(db.Disciplines, "Id", "Title", educationPlan.IdDiscipline);
+            ViewBag.IdSpecialty = new SelectList(db.Specialties, "Id", "Title", educationPlan.IdSpecialty);
             return View(educationPlan);
         }
 
@@ -105,7 +105,7 @@ namespace SSU.University.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EducationPlan educationPlan = db.EducationPlan.Find(id);
+            EducationPlan educationPlan = db.EducationPlans.Find(id);
             if (educationPlan == null)
             {
                 return HttpNotFound();
@@ -118,8 +118,8 @@ namespace SSU.University.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EducationPlan educationPlan = db.EducationPlan.Find(id);
-            db.EducationPlan.Remove(educationPlan);
+            EducationPlan educationPlan = db.EducationPlans.Find(id);
+            db.EducationPlans.Remove(educationPlan);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

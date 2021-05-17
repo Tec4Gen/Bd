@@ -17,16 +17,16 @@ namespace SSU.University.MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Discipline()
         {
-            this.EducationPlan = new HashSet<EducationPlan>();
-            this.Perfomance = new HashSet<Perfomance>();
+            this.EducationPlans = new HashSet<EducationPlan>();
+            this.Perfomances = new HashSet<Perfomance>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EducationPlan> EducationPlan { get; set; }
+        public virtual ICollection<EducationPlan> EducationPlans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Perfomance> Perfomance { get; set; }
+        public virtual ICollection<Perfomance> Perfomances { get; set; }
     }
 }

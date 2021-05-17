@@ -1,0 +1,74 @@
+﻿@model SSU.University.MVC.Models.Transfer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Transfer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdOldUniversity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdOldUniversity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNewUniversity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdNewUniversity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdOldFaculty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdOldFaculty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdOldGroup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdOldGroup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNewGroup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdNewGroup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTransfer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTransfer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

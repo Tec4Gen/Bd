@@ -47,6 +47,7 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdDepertament" Type="int" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -84,6 +85,13 @@
           <Property Name="Evalution" Type="int" Nullable="false" />
           <Property Name="DateOfDelivery" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Specialty">
           <Key>
             <PropertyRef Name="Id" />
@@ -105,6 +113,17 @@
           <Property Name="Group" Type="int" Nullable="false" />
           <Property Name="DateOfReceipt" Type="datetime" Nullable="false" />
           <Property Name="IdSpecialty" Type="int" Nullable="false" />
+          <Property Name="IdUser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Transfer">
           <Key>
@@ -125,6 +144,33 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdRole" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'University.dbo.EpmDepView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="EpmDepView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Group" />
+            <PropertyRef Name="Evalution" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="MiddleName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Group" Type="int" Nullable="false" />
+          <Property Name="Evalution" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK__Deducted__IdStud__5441852A">
           <End Role="Student" Type="Self.Student" Multiplicity="1">
@@ -308,6 +354,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Employee_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetAllStudnet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetStudentBydateReceipt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DateReceipt" Type="datetime2" Mode="In" />
+        </Function>
         <EntityContainer Name="UniversityModelStoreContainer">
           <EntitySet Name="Deducted" EntityType="Self.Deducted" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departament" EntityType="Self.Departament" Schema="dbo" store:Type="Tables" />
@@ -318,10 +404,23 @@
           <EntitySet Name="Graduates" EntityType="Self.Graduates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfomance" EntityType="Self.Perfomance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EpmDepView" EntityType="Self.EpmDepView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EpmDepView].[Id] AS [Id], 
+    [EpmDepView].[Group] AS [Group], 
+    [EpmDepView].[Evalution] AS [Evalution], 
+    [EpmDepView].[FirstName] AS [FirstName], 
+    [EpmDepView].[LastName] AS [LastName], 
+    [EpmDepView].[MiddleName] AS [MiddleName]
+    FROM [dbo].[EpmDepView] AS [EpmDepView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Deducted__IdStud__5441852A" Association="Self.FK__Deducted__IdStud__5441852A">
             <End Role="Student" EntitySet="Student" />
             <End Role="Deducted" EntitySet="Deducted" />
@@ -374,6 +473,18 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="Transfer" EntitySet="Transfer" />
           </AssociationSet>
+          <AssociationSet Name="FK_Employee_User" Association="Self.FK_Employee_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_User" Association="Self.FK_Student_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -397,8 +508,8 @@
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IdFaculty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__Departame__IdFac__3C69FB99" FromRole="Departament" ToRole="Faculty" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK__Employee__IdDepe__47DBAE45" FromRole="Departament" ToRole="Employee" />
-          <NavigationProperty Name="Specialty" Relationship="Self.FK__Specialty__IdDep__3F466844" FromRole="Departament" ToRole="Specialty" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__IdDepe__47DBAE45" FromRole="Departament" ToRole="Employee" />
+          <NavigationProperty Name="Specialties" Relationship="Self.FK__Specialty__IdDep__3F466844" FromRole="Departament" ToRole="Specialty" />
         </EntityType>
         <EntityType Name="Discipline">
           <Key>
@@ -406,8 +517,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="EducationPlan" Relationship="Self.FK__Education__IdDis__5165187F" FromRole="Discipline" ToRole="EducationPlan" />
-          <NavigationProperty Name="Perfomance" Relationship="Self.FK__Perfomanc__IdDis__4D94879B" FromRole="Discipline" ToRole="Perfomance" />
+          <NavigationProperty Name="EducationPlans" Relationship="Self.FK__Education__IdDis__5165187F" FromRole="Discipline" ToRole="EducationPlan" />
+          <NavigationProperty Name="Perfomances" Relationship="Self.FK__Perfomanc__IdDis__4D94879B" FromRole="Discipline" ToRole="Perfomance" />
         </EntityType>
         <EntityType Name="EducationPlan">
           <Key>
@@ -430,7 +541,9 @@
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IdDepertament" Type="Int32" Nullable="false" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Departament" Relationship="Self.FK__Employee__IdDepe__47DBAE45" FromRole="Employee" ToRole="Departament" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Employee_User" FromRole="Employee" ToRole="User" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -439,10 +552,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IdUniversity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Departament" Relationship="Self.FK__Departame__IdFac__3C69FB99" FromRole="Faculty" ToRole="Departament" />
+          <NavigationProperty Name="Departaments" Relationship="Self.FK__Departame__IdFac__3C69FB99" FromRole="Faculty" ToRole="Departament" />
           <NavigationProperty Name="University" Relationship="Self.FK__Faculty__IdUnive__398D8EEE" FromRole="Faculty" ToRole="University" />
         </EntityType>
-        <EntityType Name="Graduates">
+        <EntityType Name="Graduate">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -474,6 +587,14 @@
           <NavigationProperty Name="Discipline" Relationship="Self.FK__Perfomanc__IdDis__4D94879B" FromRole="Perfomance" ToRole="Discipline" />
           <NavigationProperty Name="Student" Relationship="Self.FK__Perfomanc__IdStu__4CA06362" FromRole="Perfomance" ToRole="Student" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
         <EntityType Name="Specialty">
           <Key>
             <PropertyRef Name="Id" />
@@ -483,9 +604,9 @@
           <Property Name="IdDepartament" Type="Int32" Nullable="false" />
           <Property Name="OpeningDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Departament" Relationship="Self.FK__Specialty__IdDep__3F466844" FromRole="Specialty" ToRole="Departament" />
-          <NavigationProperty Name="EducationPlan" Relationship="Self.FK__Education__IdSpe__5070F446" FromRole="Specialty" ToRole="EducationPlan" />
-          <NavigationProperty Name="Group" Relationship="Self.FK__Group__IdSpecial__44FF419A" FromRole="Specialty" ToRole="Group" />
-          <NavigationProperty Name="Student" Relationship="Self.FK__Student__IdSpeci__4222D4EF" FromRole="Specialty" ToRole="Student" />
+          <NavigationProperty Name="EducationPlans" Relationship="Self.FK__Education__IdSpe__5070F446" FromRole="Specialty" ToRole="EducationPlan" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__Group__IdSpecial__44FF419A" FromRole="Specialty" ToRole="Group" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__IdSpeci__4222D4EF" FromRole="Specialty" ToRole="Student" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -499,11 +620,23 @@
           <Property Name="Group" Type="Int32" Nullable="false" />
           <Property Name="DateOfReceipt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdSpecialty" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Deducted" Relationship="Self.FK__Deducted__IdStud__5441852A" FromRole="Student" ToRole="Deducted" />
+          <Property Name="IdUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Deducteds" Relationship="Self.FK__Deducted__IdStud__5441852A" FromRole="Student" ToRole="Deducted" />
           <NavigationProperty Name="Graduates" Relationship="Self.FK__Graduates__IdStu__571DF1D5" FromRole="Student" ToRole="Graduates" />
-          <NavigationProperty Name="Perfomance" Relationship="Self.FK__Perfomanc__IdStu__4CA06362" FromRole="Student" ToRole="Perfomance" />
+          <NavigationProperty Name="Perfomances" Relationship="Self.FK__Perfomanc__IdStu__4CA06362" FromRole="Student" ToRole="Perfomance" />
           <NavigationProperty Name="Specialty" Relationship="Self.FK__Student__IdSpeci__4222D4EF" FromRole="Student" ToRole="Specialty" />
-          <NavigationProperty Name="Transfer" Relationship="Self.FK__Transfer__IdStud__59FA5E80" FromRole="Student" ToRole="Transfer" />
+          <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfer__IdStud__59FA5E80" FromRole="Student" ToRole="Transfer" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Student_User" FromRole="Student" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Transfer">
           <Key>
@@ -525,7 +658,35 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Faculty" Relationship="Self.FK__Faculty__IdUnive__398D8EEE" FromRole="University" ToRole="Faculty" />
+          <NavigationProperty Name="Faculties" Relationship="Self.FK__Faculty__IdUnive__398D8EEE" FromRole="University" ToRole="Faculty" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_User" FromRole="User" ToRole="Employee" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Student_User" FromRole="User" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="EpmDepView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Group" />
+            <PropertyRef Name="Evalution" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="MiddleName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Group" Type="Int32" Nullable="false" />
+          <Property Name="Evalution" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK__Deducted__IdStud__5441852A">
           <End Role="Student" Type="Self.Student" Multiplicity="1">
@@ -625,6 +786,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Employee_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Faculty__IdUnive__398D8EEE">
           <End Role="University" Type="Self.University" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -643,7 +816,7 @@
           <End Role="Student" Type="Self.Student" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
+          <End Role="Graduates" Type="Self.Graduate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Student">
               <PropertyRef Name="Id" />
@@ -681,6 +854,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="IdRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Student__IdSpeci__4222D4EF">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -709,80 +894,131 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Student_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="UniversityEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Deducted" EntityType="Self.Deducted" />
-          <EntitySet Name="Departament" EntityType="Self.Departament" />
-          <EntitySet Name="Discipline" EntityType="Self.Discipline" />
-          <EntitySet Name="EducationPlan" EntityType="Self.EducationPlan" />
-          <EntitySet Name="Employee" EntityType="Self.Employee" />
-          <EntitySet Name="Faculty" EntityType="Self.Faculty" />
-          <EntitySet Name="Graduates" EntityType="Self.Graduates" />
-          <EntitySet Name="Group" EntityType="Self.Group" />
-          <EntitySet Name="Perfomance" EntityType="Self.Perfomance" />
-          <EntitySet Name="Specialty" EntityType="Self.Specialty" />
-          <EntitySet Name="Student" EntityType="Self.Student" />
-          <EntitySet Name="Transfer" EntityType="Self.Transfer" />
-          <EntitySet Name="University" EntityType="Self.University" />
+          <EntitySet Name="Deducteds" EntityType="Self.Deducted" />
+          <EntitySet Name="Departaments" EntityType="Self.Departament" />
+          <EntitySet Name="Disciplines" EntityType="Self.Discipline" />
+          <EntitySet Name="EducationPlans" EntityType="Self.EducationPlan" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+          <EntitySet Name="Graduates" EntityType="Self.Graduate" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Perfomances" EntityType="Self.Perfomance" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Specialties" EntityType="Self.Specialty" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Transfers" EntityType="Self.Transfer" />
+          <EntitySet Name="Universities" EntityType="Self.University" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="EpmDepViews" EntityType="Self.EpmDepView" />
           <AssociationSet Name="FK__Deducted__IdStud__5441852A" Association="Self.FK__Deducted__IdStud__5441852A">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="Deducted" EntitySet="Deducted" />
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Deducted" EntitySet="Deducteds" />
           </AssociationSet>
           <AssociationSet Name="FK__Departame__IdFac__3C69FB99" Association="Self.FK__Departame__IdFac__3C69FB99">
-            <End Role="Faculty" EntitySet="Faculty" />
-            <End Role="Departament" EntitySet="Departament" />
+            <End Role="Faculty" EntitySet="Faculties" />
+            <End Role="Departament" EntitySet="Departaments" />
           </AssociationSet>
           <AssociationSet Name="FK__Employee__IdDepe__47DBAE45" Association="Self.FK__Employee__IdDepe__47DBAE45">
-            <End Role="Departament" EntitySet="Departament" />
-            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Departament" EntitySet="Departaments" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK__Specialty__IdDep__3F466844" Association="Self.FK__Specialty__IdDep__3F466844">
-            <End Role="Departament" EntitySet="Departament" />
-            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Departament" EntitySet="Departaments" />
+            <End Role="Specialty" EntitySet="Specialties" />
           </AssociationSet>
           <AssociationSet Name="FK__Education__IdDis__5165187F" Association="Self.FK__Education__IdDis__5165187F">
-            <End Role="Discipline" EntitySet="Discipline" />
-            <End Role="EducationPlan" EntitySet="EducationPlan" />
+            <End Role="Discipline" EntitySet="Disciplines" />
+            <End Role="EducationPlan" EntitySet="EducationPlans" />
           </AssociationSet>
           <AssociationSet Name="FK__Perfomanc__IdDis__4D94879B" Association="Self.FK__Perfomanc__IdDis__4D94879B">
-            <End Role="Discipline" EntitySet="Discipline" />
-            <End Role="Perfomance" EntitySet="Perfomance" />
+            <End Role="Discipline" EntitySet="Disciplines" />
+            <End Role="Perfomance" EntitySet="Perfomances" />
           </AssociationSet>
           <AssociationSet Name="FK__Education__IdSpe__5070F446" Association="Self.FK__Education__IdSpe__5070F446">
-            <End Role="Specialty" EntitySet="Specialty" />
-            <End Role="EducationPlan" EntitySet="EducationPlan" />
+            <End Role="Specialty" EntitySet="Specialties" />
+            <End Role="EducationPlan" EntitySet="EducationPlans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_User" Association="Self.FK_Employee_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK__Faculty__IdUnive__398D8EEE" Association="Self.FK__Faculty__IdUnive__398D8EEE">
-            <End Role="University" EntitySet="University" />
-            <End Role="Faculty" EntitySet="Faculty" />
+            <End Role="University" EntitySet="Universities" />
+            <End Role="Faculty" EntitySet="Faculties" />
           </AssociationSet>
           <AssociationSet Name="FK__Graduates__IdStu__571DF1D5" Association="Self.FK__Graduates__IdStu__571DF1D5">
-            <End Role="Student" EntitySet="Student" />
+            <End Role="Student" EntitySet="Students" />
             <End Role="Graduates" EntitySet="Graduates" />
           </AssociationSet>
           <AssociationSet Name="FK__Group__IdSpecial__44FF419A" Association="Self.FK__Group__IdSpecial__44FF419A">
-            <End Role="Specialty" EntitySet="Specialty" />
-            <End Role="Group" EntitySet="Group" />
+            <End Role="Specialty" EntitySet="Specialties" />
+            <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
           <AssociationSet Name="FK__Perfomanc__IdStu__4CA06362" Association="Self.FK__Perfomanc__IdStu__4CA06362">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="Perfomance" EntitySet="Perfomance" />
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Perfomance" EntitySet="Perfomances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK__Student__IdSpeci__4222D4EF" Association="Self.FK__Student__IdSpeci__4222D4EF">
-            <End Role="Specialty" EntitySet="Specialty" />
-            <End Role="Student" EntitySet="Student" />
+            <End Role="Specialty" EntitySet="Specialties" />
+            <End Role="Student" EntitySet="Students" />
           </AssociationSet>
           <AssociationSet Name="FK__Transfer__IdStud__59FA5E80" Association="Self.FK__Transfer__IdStud__59FA5E80">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="Transfer" EntitySet="Transfer" />
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Transfer" EntitySet="Transfers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Student_User" Association="Self.FK_Student_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <FunctionImport Name="GetAllStudnet" ReturnType="Collection(UniversityModel.GetAllStudnet_Result)" />
+          <FunctionImport Name="GetStudentBydateReceipt" ReturnType="Collection(UniversityModel.GetStudentBydateReceipt_Result)">
+            <Parameter Name="DateReceipt" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="GetAllStudnet_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MiddleName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Course" Nullable="false" />
+          <Property Type="Int32" Name="Group" Nullable="false" />
+          <Property Type="Int32" Name="IdSpecialty" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetStudentBydateReceipt_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MiddleName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Course" Nullable="false" />
+          <Property Type="Int32" Name="Group" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfReceipt" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="IdSpecialty" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="UniversityModelStoreContainer" CdmEntityContainer="UniversityEntities">
-          <EntitySetMapping Name="Deducted">
+          <EntitySetMapping Name="Deducteds">
             <EntityTypeMapping TypeName="UniversityModel.Deducted">
               <MappingFragment StoreEntitySet="Deducted">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -791,7 +1027,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Departament">
+          <EntitySetMapping Name="Departaments">
             <EntityTypeMapping TypeName="UniversityModel.Departament">
               <MappingFragment StoreEntitySet="Departament">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -800,7 +1036,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Discipline">
+          <EntitySetMapping Name="Disciplines">
             <EntityTypeMapping TypeName="UniversityModel.Discipline">
               <MappingFragment StoreEntitySet="Discipline">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -808,7 +1044,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EducationPlan">
+          <EntitySetMapping Name="EducationPlans">
             <EntityTypeMapping TypeName="UniversityModel.EducationPlan">
               <MappingFragment StoreEntitySet="EducationPlan">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -819,7 +1055,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Employee">
+          <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="UniversityModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -827,10 +1063,11 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="IdDepertament" ColumnName="IdDepertament" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Faculty">
+          <EntitySetMapping Name="Faculties">
             <EntityTypeMapping TypeName="UniversityModel.Faculty">
               <MappingFragment StoreEntitySet="Faculty">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -840,7 +1077,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Graduates">
-            <EntityTypeMapping TypeName="UniversityModel.Graduates">
+            <EntityTypeMapping TypeName="UniversityModel.Graduate">
               <MappingFragment StoreEntitySet="Graduates">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
@@ -848,7 +1085,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Group">
+          <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="UniversityModel.Group">
               <MappingFragment StoreEntitySet="Group">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -859,7 +1096,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Perfomance">
+          <EntitySetMapping Name="Perfomances">
             <EntityTypeMapping TypeName="UniversityModel.Perfomance">
               <MappingFragment StoreEntitySet="Perfomance">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -870,7 +1107,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Specialty">
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="UniversityModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialties">
             <EntityTypeMapping TypeName="UniversityModel.Specialty">
               <MappingFragment StoreEntitySet="Specialty">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -880,7 +1125,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Student">
+          <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="UniversityModel.Student">
               <MappingFragment StoreEntitySet="Student">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -891,10 +1136,22 @@
                 <ScalarProperty Name="Group" ColumnName="Group" />
                 <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
                 <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Transfer">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="UniversityModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="UniversityModel.Transfer">
               <MappingFragment StoreEntitySet="Transfer">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -908,7 +1165,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="University">
+          <EntitySetMapping Name="Universities">
             <EntityTypeMapping TypeName="UniversityModel.University">
               <MappingFragment StoreEntitySet="University">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -916,6 +1173,55 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="UniversityModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EpmDepViews">
+            <EntityTypeMapping TypeName="UniversityModel.EpmDepView">
+              <MappingFragment StoreEntitySet="EpmDepView">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Evalution" ColumnName="Evalution" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllStudnet" FunctionName="UniversityModel.Store.GetAllStudnet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UniversityModel.GetAllStudnet_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetStudentBydateReceipt" FunctionName="UniversityModel.Store.GetStudentBydateReceipt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UniversityModel.GetStudentBydateReceipt_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
+                <ScalarProperty Name="IdSpecialty" ColumnName="IdSpecialty" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -930,7 +1236,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

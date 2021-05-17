@@ -17,9 +17,9 @@ namespace SSU.University.MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Specialty()
         {
-            this.EducationPlan = new HashSet<EducationPlan>();
-            this.Group = new HashSet<Group>();
-            this.Student = new HashSet<Student>();
+            this.EducationPlans = new HashSet<EducationPlan>();
+            this.Groups = new HashSet<Group>();
+            this.Students = new HashSet<Student>();
         }
     
         public int Id { get; set; }
@@ -29,10 +29,10 @@ namespace SSU.University.MVC.Models
     
         public virtual Departament Departament { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EducationPlan> EducationPlan { get; set; }
+        public virtual ICollection<EducationPlan> EducationPlans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Group { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Student { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
 }

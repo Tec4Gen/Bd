@@ -17,13 +17,13 @@ namespace SSU.University.MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public University()
         {
-            this.Faculty = new HashSet<Faculty>();
+            this.Faculties = new HashSet<Faculty>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Faculty> Faculty { get; set; }
+        public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }

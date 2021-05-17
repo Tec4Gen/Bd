@@ -19,7 +19,9 @@ namespace SSU.University.MVC.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public int IdDepertament { get; set; }
+        public int IdUser { get; set; }
     
         public virtual Departament Departament { get; set; }
+        public virtual User User { get; set; }
     }
 }

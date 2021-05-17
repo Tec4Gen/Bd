@@ -17,10 +17,10 @@ namespace SSU.University.MVC.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Student()
         {
-            this.Deducted = new HashSet<Deducted>();
-            this.Graduates = new HashSet<Graduates>();
-            this.Perfomance = new HashSet<Perfomance>();
-            this.Transfer = new HashSet<Transfer>();
+            this.Deducteds = new HashSet<Deducted>();
+            this.Graduates = new HashSet<Graduate>();
+            this.Perfomances = new HashSet<Perfomance>();
+            this.Transfers = new HashSet<Transfer>();
         }
     
         public int Id { get; set; }
@@ -31,15 +31,17 @@ namespace SSU.University.MVC.Models
         public int Group { get; set; }
         public System.DateTime DateOfReceipt { get; set; }
         public int IdSpecialty { get; set; }
+        public int IdUser { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Deducted> Deducted { get; set; }
+        public virtual ICollection<Deducted> Deducteds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Graduates> Graduates { get; set; }
+        public virtual ICollection<Graduate> Graduates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Perfomance> Perfomance { get; set; }
+        public virtual ICollection<Perfomance> Perfomances { get; set; }
         public virtual Specialty Specialty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transfer> Transfer { get; set; }
+        public virtual ICollection<Transfer> Transfers { get; set; }
+        public virtual User User { get; set; }
     }
 }
